@@ -14,6 +14,6 @@ export const handlers = [
     }),
     rest.get(`${process.env.ORIGIN}/projects/:projectId`, (req, res, ctx) => {
         const { projectId } = req.params;
-        return res(ctx.json(playBuilder({ overrides: { id: projectId } })));
+        return res(ctx.json(playBuilder({ overrides: { id: projectId }, traits: 'complete' })));
     }),
 ];

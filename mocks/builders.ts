@@ -17,7 +17,7 @@ function fillRandomlyFromDictionary<T>(inputDictionary: Array<T>, itemsToSelect:
 
 function pickOne(options: Array<any>): any {
     const max = options.length - 1;
-    const randomIndex = Math.floor(Math.random() * max) + 1;
+    const randomIndex = Math.floor(Math.random() * max);
     return options[randomIndex];
 }
 
@@ -33,7 +33,7 @@ export const playBuilder = build<Play>({
         playwright: fake((f) => f.name.findName()),
         press: [],
         producers: oneOf([], null),
-        producingEntity: fake((f) => f.company.companyName()),
+        producingEntity: fake((f) => `${f.company.companyName()} Theater`),
         runtime: oneOf(
             '45 minutes',
             '60 minutes',
@@ -52,12 +52,12 @@ export const playBuilder = build<Play>({
     },
     postBuild: (play) => {
         if (play.artists) {
-            play.artists = Array(Math.floor(Math.random() * 8) + 1)
+            play.artists = Array(Math.floor(Math.random() * 12) + 1)
                 .fill(undefined)
                 .map(() => ({
                     fullName: faker.name.findName(),
                     id: faker.random.uuid(),
-                    headshot: pickOne([faker.internet.url(), null]),
+                    headshot: pickOne([faker.image.avatar(), null]),
                     role: faker.name.firstName(),
                 }));
         }
@@ -93,5 +93,38 @@ export const playBuilder = build<Play>({
             .map(() => faker.internet.url());
 
         return play;
+    },
+    traits: {
+        complete: {
+            overrides: {
+                contentWarnings: [],
+                description: fake((f) => f.lorem.paragraph()),
+                images: [],
+                producers: [],
+                runtime: oneOf(
+                    '45 minutes',
+                    '60 minutes',
+                    '90 minutes without intermission',
+                    '120 minutes with intermission'
+                ),
+                season: oneOf('2019 - 2020', '2020 - 2021'),
+                subtitle: fake((f) => f.lorem.words(6)),
+                tagline: fake((f) => f.lorem.words(8)),
+                website: fake((f) => f.internet.url()),
+            },
+        },
+        minimal: {
+            overrides: {
+                contentWarnings: null,
+                description: null,
+                images: null,
+                producers: null,
+                runtime: null,
+                season: null,
+                subtitle: null,
+                tagline: null,
+                website: null,
+            },
+        },
     },
 });
