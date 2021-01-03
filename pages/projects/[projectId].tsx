@@ -101,25 +101,54 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
             <Flex marginBottom={10} paddingX={10}>
                 <Box flex={1} marginRight={4} minWidth={250}>
                     <Stack direction="column">
-                        {producers && <Text>Produced by {producers.join(', ')}</Text>}
-                        {season && <Text>{season} Season</Text>}
-                        <Text>{venue}</Text>
-                        {runtime && <Text>{runtime}</Text>}
+                        {producers && (
+                            <Box>
+                                <Heading as="span" fontSize="md">
+                                    Producers
+                                </Heading>
+                                <Text>{producers.join(', ')}</Text>
+                            </Box>
+                        )}
+                        {season && (
+                            <Box>
+                                <Heading as="span" fontSize="md">
+                                    Season
+                                </Heading>
+                                <Text>{season}</Text>
+                            </Box>
+                        )}
+                        <Box>
+                            <Heading as="span" fontSize="md">
+                                Venue
+                            </Heading>
+                            <Text>{venue}</Text>
+                        </Box>
+                        {runtime && (
+                            <Box>
+                                <Heading as="span" fontSize="md">
+                                    Runtime
+                                </Heading>
+                                <Text>{runtime}</Text>
+                            </Box>
+                        )}
+                        {contentWarnings && (
+                            <Box>
+                                <Heading as="span" fontSize="md">
+                                    Content Warnings
+                                </Heading>
+                                <Wrap direction="row">
+                                    {contentWarnings.map((warning) => (
+                                        <WrapItem key={warning}>
+                                            <Badge colorScheme="primary">{warning}</Badge>
+                                        </WrapItem>
+                                    ))}
+                                </Wrap>
+                            </Box>
+                        )}
                         {website && (
                             <Link href={website} isExternal={true}>
                                 Original Webpage <ExternalLinkIcon marginBottom={1} marginLeft={1} />
                             </Link>
-                        )}
-                        {contentWarnings && (
-                            <Wrap direction="row">
-                                {contentWarnings.map((warning) => (
-                                    <WrapItem key={warning}>
-                                        <Badge colorScheme="primary" fontSize="sm">
-                                            {warning}
-                                        </Badge>
-                                    </WrapItem>
-                                ))}
-                            </Wrap>
                         )}
                     </Stack>
                 </Box>
